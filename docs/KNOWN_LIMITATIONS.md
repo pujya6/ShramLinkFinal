@@ -1,0 +1,15 @@
+# Release limitations and remaining work
+
+- **Physical speech remains unverified.** Automated tests simulate native recognition/synthesis events. Hindi voice availability, pronunciation, permission behaviour, network-dependent recognition and the affected Mac's “question mark” issue need real hardware checks. Type remains available throughout.
+- **Old truncated names need explicit editing.** The corrected parser prevents the reproduced prefix bug on new inputs. Existing “त झा” records cannot be reliably reconstructed; raw transcripts are not retained, and no guessed migration is performed.
+- **Demonstration isolation is deliberate.** Bootstrap refuses non-demo/unrecognized data before migration and rejects in-memory/non-SQLite databases. Seed before registration. Repeat bootstrap after adding an ordinary participant safely refuses; normal app startup still works. It is an operator command, never a public endpoint.
+- **Fixture dates and history are preserved.** New fixtures use today + seven days. Only an explicit flag can refresh an expired, unused ACTIVE fixture. Applied, filled or cancelled jobs are not recycled. Browser skips and prior applications can reduce the visible count.
+- **API interpretation is optional and unverified live.** No paid xAI request was made. Tests validate structured mocked responses and fallback, not cloud extraction quality, latency or billing. Schema-valid interpretation can still be wrong; review is mandatory. Stop cannot reverse provider billing already incurred.
+- **External feed coverage is narrow.** The previously evaluated public board returned no supported NCR industrial matches. No new live-feed relevance claim is made during this release pass. Unavailable feeds retain honest fallback; fictional examples stay labelled. English descriptions are not translated automatically.
+- **No external application submission.** Only local preparation exists. No escrow, payment, identity verification, SMS OTP or employment guarantee is provided.
+- **Deployment is documentation only.** No host, domain, HTTPS URL or paid service was provisioned. Docker runtime, actual reverse-proxy configuration and deployed storage/backups are unverified. This is not a blocker for the integration handoff.
+- **SQLite is the tested database.** PostgreSQL migrations, multiple application instances, sustained concurrent load and a long-term retention process remain future operational work. Database error responses are generic; an operator must diagnose availability privately.
+- **Merge conflicts depend on the team's unseen changes.** Likely overlap is documented, but this release has not been merged with the team's private/current branch. Resolve on an integration branch, then rerun the full suite.
+- **Historical secrets still require rotation.** The clean source package excludes Git history and private runtime files. That does not revoke any credential previously committed elsewhere. Use fresh secrets/passwords before any public use.
+
+No presentation edits, main-branch merge or original-repository write are part of this release.

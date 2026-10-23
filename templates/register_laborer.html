@@ -1,0 +1,19 @@
+{% extends "base.html" %}{% from '_forms.html' import input, errors_summary %}
+{% block title %}श्रमिक खाता बनाएँ · ShramLink{% endblock %}
+{% block content %}<section class="container auth-grid section"><aside class="auth-story"><p class="eyebrow teal">श्रमिक / WORKER</p><h1>आपके हुनर को<br>मिले सही मौका।</h1><p>पहले अपना खाता बनाएँ। फिर हिंदी में बोलकर या टाइप करके अपनी प्रोफ़ाइल पूरी करें।</p><ol class="simple-steps"><li class="current">खाता बनाएँ</li><li>अपना परिचय दें</li><li>काम देखें और आवेदन करें</li></ol><p class="small-text">मोबाइल नंबर लॉग इन के लिए है। इस MVP में SMS या OTP सत्यापन नहीं है। पासवर्ड बोलकर न बताएँ।</p></aside>
+<div class="panel">
+    <p class="eyebrow teal">कदम 1 / 2</p>
+    <h2>नया खाता बनाएँ</h2>
+    <p class="muted">पहले से खाता है? <a href="{{ url_for('auth.login') }}">लॉग इन करें</a></p>
+    {{ errors_summary(errors) }}
+    <form method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        {{ input('phone','मोबाइल नंबर / Mobile number',values,errors,type='tel',maxlength=10,autocomplete='tel',hint='10 अंक, बिना +91 के') }}
+        {{ input('password','पासवर्ड / Password',values,errors,type='password',maxlength=128,autocomplete='new-password',hint='कम से कम 10 अक्षर। ऐसा पासवर्ड रखें जो याद रहे।') }}
+        {{ input('confirm_password','पासवर्ड फिर लिखें / Confirm password',values,errors,type='password',maxlength=128,autocomplete='new-password') }}
+        <button type="submit"
+                class="button primary full">खाता बनाएँ और आगे बढ़ें <span aria-hidden="true">→</span></button>
+    </form>
+</div>
+</section>
+{% endblock %}

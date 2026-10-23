@@ -1,0 +1,14 @@
+.git
+.env
+.env.*
+cookies*
+*.db
+*.sqlite*
+instance
+.venv
+__pycache__
+.pytest_cache
+.ruff_cache
+test-results
+node_modules
+docs/screenshots

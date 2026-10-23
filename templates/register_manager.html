@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% from '_forms.html' import input, errors_summary %}{% block lang %}en{% endblock %}
+{% block title %}Employer registration · ShramLink{% endblock %}
+{% block content %}<section class="container auth-grid section"><aside class="auth-story"><p class="eyebrow teal">EMPLOYERS / नियोक्ता</p><h1>Build your<br>next shift.</h1><p>Create your factory account, describe the work and review applications in one place.</p><ol class="simple-steps"><li class="current">Create an account</li><li>Publish your vacancy</li><li>Review and select workers</li></ol><p class="small-text">Factory details are self-reported. This MVP does not verify business credentials.</p></aside>
+<div class="panel">
+    <h2>Create employer account</h2>
+    <p class="muted">Already registered? <a href="{{ url_for('auth.login') }}">Log in</a></p>
+    {{ errors_summary(errors) }}
+    <form method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        {{ input('name','Your name',values,errors,autocomplete='name') }}{{ input('factory_name','Factory / business name',values,errors,maxlength=200,autocomplete='organization') }}{{ input('factory_address','Factory address',values,errors,maxlength=200,autocomplete='street-address') }}{{ input('email','Work email',values,errors,type='email',maxlength=120,autocomplete='email') }}{{ input('password','Password',values,errors,type='password',maxlength=128,autocomplete='new-password',hint='Use 10–128 characters. No shared demo password.') }}{{ input('confirm_password','Confirm password',values,errors,type='password',maxlength=128,autocomplete='new-password') }}<button class="button primary full" type="submit">Create account <span aria-hidden="true">→</span></button></form></div></section>{% endblock %}

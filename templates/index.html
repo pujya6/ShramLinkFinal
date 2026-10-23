@@ -1,0 +1,21 @@
+{% extends "base.html" %}{% from '_icons.html' import icon %}
+{% block content %}
+<section class="home-stage container">
+  <div class="home-intro">
+    <p class="eyebrow">दिल्ली–NCR के श्रमिकों और उद्योगों के लिए</p>
+    <h1>हुनर आपका।<br><em>अगला कदम <br>हमारे साथ।</em></h1>
+    <p class="home-lead">अपनी भाषा में बोलें। <br>अपने लिए काम चुनें।</p>
+    <div class="industry-scene" aria-hidden="true"><svg viewBox="0 0 560 180" fill="none"><path d="M0 160h560M25 160V75l80-43v43l80-43v43l80-43v128M265 160V95h90V22h25v73h100v65M47 105h25v28H47Zm82 0h25v28h-25Zm82 0h25v28h-25Zm84 18h30v37h-30Zm105-5h25v24h-25Z" stroke="currentColor" stroke-width="3"/><circle cx="506" cy="58" r="26" stroke="currentColor" stroke-width="2"/><path d="M478 160v-40a28 28 0 0 1 56 0v40M492 120v40m28-40v40M477 56h58" stroke="currentColor" stroke-width="3"/></svg><span>मेहनत को मिले सही मौका।</span></div>
+  </div>
+  <div class="entry-choices">
+    <article class="worker-entry"><div class="entry-top"><span class="icon-tile">{{ icon('mic') }}</span><span class="tag">श्रमिक · WORKER</span></div><h2>मुझे काम चाहिए</h2><p>सवाल सुनें। जवाब बोलें। <br>मिलकर आपकी प्रोफ़ाइल बनाएँगे।</p><a class="button primary full" href="{{ url_for('auth.register_laborer') }}">{{ icon('mic') }} बोलकर शुरू करें {{ icon('arrow') }}</a><p class="entry-foot">हिंदी में बात करें या लिखकर भरें</p></article>
+    <article class="employer-entry"><span class="icon-tile">{{ icon('factory') }}</span><div><p class="eyebrow">नियोक्ता · EMPLOYER</p><h2>मुझे श्रमिक चाहिए</h2><p>काम बताएँ। आवेदन देखें। टीम बनाएँ।</p><a class="button secondary" href="{{ url_for('auth.register_manager') }}">नियोक्ता खाता बनाएँ {{ icon('arrow') }}</a></div></article>
+  </div>
+</section>
+<section class="container journey-band" id="how" aria-label="काम तक पहुँचने के तीन कदम">
+  <article><span class="journey-icon">{{ icon('mic') }}<b>1</b></span><div><h2>बोलें</h2><p>अपना हुनर और अनुभव बताएँ</p></div></article>
+  <article><span class="journey-icon">{{ icon('work') }}<b>2</b></span><div><h2>काम देखें</h2><p>जगह, मज़दूरी और शर्तें सुनें</p></div></article>
+  <article><span class="journey-icon">{{ icon('check') }}<b>3</b></span><div><h2>आवेदन करें</h2><p>जाँचें, पुष्टि करें, स्थिति देखें</p></div></article>
+</section>
+<section class="container trust-row">{{ icon('shield') }}<div><strong>आपकी जानकारी। आपका फैसला।</strong><p>सेव करने से पहले सब जाँचें। प्रोफ़ाइल और नियोक्ता की जानकारी स्वयं दी गई है; सत्यापन नहीं हुआ है।</p></div><span class="tag">हिंदी + टाइपिंग</span></section>
+{% endblock %}

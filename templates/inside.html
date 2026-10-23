@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% from '_icons.html' import icon %}
+{% block lang %}en{% endblock %}
+{% block title %}Inside ShramLink · How it works{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/showcase.css') }}">{% endblock %}
+{% block content %}
+<div class="container section showcase">
+  <header class="showcase-hero">
+    <div><p class="eyebrow">INSIDE SHRAMLINK · JUDGE GUIDE</p><h1>A voice. A profile.<br>A clearer path to work.</h1><p lang="hi">बोलें → काम देखें → आवेदन करें।</p><p>Hindi-first access to industrial employment in Delhi–NCR. One Flask application, with explicit worker decisions at every save or application.</p></div>
+    <aside class="showcase-boundary"><span class="icon-tile">{{ icon('work') }}</span><h2>Demonstration release</h2><p>Direct recruitment runs inside ShramLink. External opportunities create a local preview only.</p><strong>No application is sent to an external employer.</strong><p><a href="{{ url_for('main.index') }}" class="button secondary">Explore the worker journey →</a></p></aside>
+  </header>
+
+  <section aria-labelledby="architecture-title" class="showcase-section">
+    <p class="eyebrow teal">01 · THE IMPLEMENTED PATH</p><h2 id="architecture-title">How an answer becomes an opportunity</h2>
+    <p>The arrows describe implemented components. Reading this page starts no microphone, provider request or database mutation.</p>
+    <ol class="architecture-flow" aria-label="Implemented data flow">
+      <li><span class="flow-number">1</span><h3>Speech or typing</h3><p>Browser Hindi recognition, selected Hindi synthesis and a full typed alternative.</p><a href="{{ source_root }}/static/js/voice-assistant.js">Bounded turn manager ↗</a><span class="flow-arrow" aria-hidden="true">→</span></li>
+      <li><span class="flow-number">2</span><h3>Interpretation</h3><p>Local Hindi/Hinglish parser first. Optional xAI handles unresolved short answers; errors return to local clarification.</p><a href="{{ source_root }}/app/interpretation.py">Bounded optional adapter ↗</a><span class="flow-arrow" aria-hidden="true">→</span></li>
+      <li><span class="flow-number">3</span><h3>Validate & confirm</h3><p>Structured fields, age/experience rules, corrections and explicit review. Filling every field does not save.</p><a href="{{ source_root }}/app/validation.py">Server validation ↗</a><span class="flow-arrow" aria-hidden="true">↓</span></li>
+      <li><span class="flow-number">4</span><h3>Saved worker profile</h3><p>SQLAlchemy persists self-reported skills, city and exact experience months. No government-verification claim.</p><a href="{{ source_root }}/app/models/__init__.py">Profile models ↗</a><span class="flow-arrow" aria-hidden="true">→</span></li>
+      <li><span class="flow-number">5</span><h3>Explainable matching</h3><p>Skill, city, domain and experience rank direct jobs. Skill and exact minimum months determine application eligibility.</p><a href="{{ source_root }}/app/recruitment.py">Matching and capacity rules ↗</a><span class="flow-arrow" aria-hidden="true">→</span></li>
+      <li><span class="flow-number">6</span><h3>One job at a time</h3><p>Hear the actual vacancy. Swipe or use buttons. Skip, undo and review before applying. External cards keep their source and missing information.</p><a href="{{ source_root }}/static/js/discovery.js">Discovery controller ↗</a><span class="flow-arrow" aria-hidden="true">↓</span></li>
+      <li class="flow-outcomes"><div><span class="tag">Direct · internal</span><h3>Application → employer decision</h3><p>Confirmed internal application, duplicate prevention, authorized employer selection and shared status. Capacity rules remain enforced.</p></div><div><span class="tag">External · demonstration only</span><h3>Review → local preparation</h3><p>Signed confirmation of the saved profile and source vacancy. Separate local record; no third-party application sender.</p><strong>Demo application prepared — not submitted externally</strong></div></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="config-title" class="showcase-section">
+    <p class="eyebrow teal">02 · ONE APP, TWO SWITCHES</p><h2 id="config-title">Four configurations. The same worker journey.</h2>
+    <div class="configuration-state"><div><span>Requested by operator</span><strong id="requested-mode">{{ config.REQUESTED_CONFIGURATION_LABEL }}</strong></div><div><span>Effective configured mode</span><strong id="effective-mode">{{ config.CONFIGURATION_LABEL }}</strong></div><p>These labels report configuration readiness, <strong>not a successful API connection</strong>. Missing optional setup falls back to local components. A configured service can still fail on an individual request; the app reports that fallback.</p></div>
+    <div class="mode-grid">
+      {% for mode, voice, jobs in [('V3a','api','demo'),('V3b','deterministic','demo'),('V3c','deterministic','integrated'),('V3d','api','integrated')] %}
+      <article class="panel"><span class="tag">{{ 'Default · no paid API needed' if mode == 'V3b' else 'Optional integration' }}</span><h3>{{ mode }}</h3><dl><dt>VOICE_PROVIDER</dt><dd>{{ voice }}</dd><dt>JOB_SOURCE</dt><dd>{{ jobs }}</dd></dl></article>
+      {% endfor %}
+    </div>
+    <p>Demo jobs are fictional and labelled. Integrated mode adds a narrowly filtered, read-only Greenhouse public feed. Neither mode submits externally. Settings are controlled by the operator; this page has no configuration controls.</p>
+  </section>
+
+  <section aria-labelledby="examples-title" class="showcase-section">
+    <p class="eyebrow teal">03 · TRY AN ILLUSTRATION</p><h2 id="examples-title">Small examples. No real account actions.</h2>
+    <p>Use synthetic text only. These examples run locally in this page; they do not save answers or contact any provider.</p>
+    <div class="example-grid">
+      <article class="panel"><h3>Exact experience, simple display</h3><label for="duration-example">Illustrative Hindi / Hinglish duration</label><input id="duration-example" maxlength="120" value="दो साल आठ महीने" lang="hi"><button class="button primary full" id="parse-example" type="button">Interpret example</button><p id="duration-result" role="status" aria-live="polite">दो साल आठ महीने → 32 months stored → 2 completed years displayed.</p><p class="hint">Uses the same deterministic parser as onboarding. Unclear input asks for clarification.</p></article>
+      <article class="panel"><h3>Why a synthetic job matches</h3><p>Sample vacancy: welder · Delhi · manufacturing · minimum 24 months. The synthetic worker also prefers manufacturing.</p><div class="example-fields"><div><label for="example-skill">Worker skill</label><select id="example-skill"><option value="welder">Welder</option><option value="helper">Helper</option></select></div><div><label for="example-city">Preferred city</label><select id="example-city"><option>Delhi</option><option>Noida</option></select></div><div><label for="example-months">Exact experience</label><select id="example-months"><option value="32">32 months</option><option value="18">18 months</option></select></div></div><button class="button primary full" id="match-example" type="button">Compare synthetic profile</button><p id="match-result" role="status" aria-live="polite">Choose values and compare. This is not a real job or hiring guarantee.</p><ul id="match-reasons"></ul><p class="hint">Results are calculated by the existing server matching function from eight fixed synthetic combinations. City affects ranking, not eligibility.</p></article>
+    </div>
+    <details class="panel illustration-preview"><summary>Inspect an illustrative external preparation</summary><p><strong>SYNTHETIC EXAMPLE · NO RECORD CREATED</strong></p><p>Sample worker: welder, 32 months. Sample vacancy: welder, minimum 24 months. Skill and experience match; documents and employer terms have not been checked.</p><p class="external-notice" lang="hi">यह प्रदर्शन है। बाहरी कंपनी को कोई आवेदन नहीं भेजा गया है।</p><p>This is a demonstration. No application has been sent to an external employer.</p><p><strong>Demo application prepared — not submitted externally</strong> is the status a confirmed real demo preparation would receive. Opening this example creates nothing.</p></details>
+    <noscript><p class="notice">Interactive examples need JavaScript. The architecture, configuration table, worked duration example and documentation remain readable.</p></noscript>
+    <script type="application/json" id="match-examples">{{ examples|tojson }}</script>
+  </section>
+
+  <section aria-labelledby="evidence-title" class="showcase-section">
+    <p class="eyebrow teal">04 · EVIDENCE, WITH BOUNDARIES</p><h2 id="evidence-title">What has actually been checked?</h2>
+    <div class="evidence-grid"><article class="panel"><span class="tag">Tested locally</span><h3>Release regression</h3>{% if evidence.status == 'passed' %}<p><strong>{{ evidence.python }} Python tests · {{ evidence.javascript }} JavaScript tests passed</strong><br>Executed {{ evidence.date }} for this release candidate.</p>{% else %}<p>Release validation is in progress. No new pass count is claimed yet.</p>{% endif %}<p>Linux · Python 3.12 · SQLite · Node.js 24 · Playwright 1.56 · Chromium 141. Browser tests use a real local Flask server.</p><p>Protected V3 baseline: 175 Python and 28 JavaScript cases, rerun {{ evidence.date }}. That historical count is separate from release evidence.</p><a href="{{ source_root }}/docs/RELEASE_TEST_RESULTS.md">Read the execution report ↗</a></article>
+    <article class="panel"><span class="tag">Mock-tested · optional integration</span><h3>Voice & providers</h3><p>Speech callbacks and authenticated xAI responses are simulated in automated tests. No live xAI accuracy, billing or latency claim is made.</p><p>The earlier public Greenhouse retrieval succeeded but found zero supported NCR industrial matches. Fictional fixtures are not live imported jobs.</p><strong>Not yet verified on physical devices</strong><p>The reported Mac pronunciation issue remains unverified on that device. No universal voice compatibility claim.</p></article></div>
+    <p><strong>Implemented:</strong> profiles, internal applications, explicit confirmation and local external preparation. <strong>Future roadmap:</strong> authorized external submission and independently verified credentials. No payment functionality.</p>
+  </section>
+
+  <section aria-labelledby="source-title" class="showcase-section"><p class="eyebrow teal">05 · INSPECT THE SOURCE</p><h2 id="source-title">Built to be reviewed and handed over</h2><nav class="evidence-links" aria-label="Implementation evidence"><a class="button secondary" href="{{ repository }}">GitHub repository ↗</a><a class="button secondary" href="{{ source_root }}/docs/FINAL_HANDOFF.md">Release handoff ↗</a><a class="button secondary" href="{{ source_root }}/docs/V3_IMPLEMENTATION_REPORT.md">V3 implementation ↗</a><a class="button secondary" href="{{ source_root }}/docs/V3_CONFIGURATION.md">Architecture & configuration ↗</a><a class="button secondary" href="{{ source_root }}/docs/RELEASE_TEST_RESULTS.md">Release tests ↗</a><a class="button secondary" href="{{ source_root }}/docs/DEPLOYMENT_CHECKLIST.md">Deployment readiness ↗</a></nav><p>No public deployment is claimed. This read-only guide exposes no credentials, transcripts, worker records or administrative controls.</p></section>
+</div>
+{% endblock %}
+{% block scripts %}<script defer src="{{ url_for('static',filename='js/profile-language.js') }}"></script><script defer src="{{ url_for('static',filename='js/showcase.js') }}"></script>{% endblock %}

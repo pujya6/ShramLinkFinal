@@ -1,0 +1,30 @@
+{% macro errors_summary(errors) %}
+    {% if errors %}<div class="notice error" role="alert" tabindex="-1" id="form-errors"><strong>कुछ जानकारी ठीक करें / Please check these details</strong><ul>{% for key, error in errors.items() %}<li><a href="#{{ key }}">{{ error }}</a></li>{% endfor %}</ul></div>{% endif %}
+{% endmacro %}
+{% macro error_for(name, errors) %}{% if name in errors %}<p class="field-error"
+   id="{{ name }}-error">{{ errors[name] }}</p>{% endif %}{% endmacro %}
+{% macro input(name, label, values, errors, type='text', required=true, maxlength=100, autocomplete='', hint='', min='', max='') %}
+    <div class="field"><label for="{{ name }}">{{ label }}</label>{% if hint %}<p class="hint"
+   id="{{ name }}-hint">{{ hint }}</p>{% endif %}
+        <input id="{{ name }}"
+               name="{{ name }}"
+               type="{{ type }}"
+               value="{{ '' if type == 'password' else values.get(name, '') }}"
+               {% if required %}required{% endif %}
+               maxlength="{{ maxlength }}"
+               {% if autocomplete %}autocomplete="{{ autocomplete }}"{% endif %}
+               {% if min != '' %}min="{{ min }}"{% endif %}
+               {% if max != '' %}max="{{ max }}"{% endif %}
+               {% if type == 'number' %}step="1"{% endif %}
+               aria-invalid="{{ 'true' if name in errors else 'false' }}"
+               aria-describedby="{{ name }}-hint {{ name }}-error">
+        {{ error_for(name, errors) }}
+    </div>
+{% endmacro %}
+{% macro select(name, label, options, values, errors) %}
+    <div class="field"><label for="{{ name }}">{{ label }}</label><select id="{{ name }}"
+        name="{{ name }}"
+        required
+        aria-invalid="{{ 'true' if name in errors else 'false' }}"
+        aria-describedby="{{ name }}-error"><option value="">चुनें / Select</option>{% for key, value in options.items() %}<option value="{{ key }}" {% if values.get(name)==key %}selected{% endif %}>{{ value }}</option>{% endfor %}</select>{{ error_for(name, errors) }}</div>
+{% endmacro %}
